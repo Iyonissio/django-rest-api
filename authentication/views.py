@@ -7,7 +7,6 @@ from django.contrib.auth import authenticate
 
 
 class AuthUserAPIView(GenericAPIView):
-
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request):
@@ -18,7 +17,6 @@ class AuthUserAPIView(GenericAPIView):
 
 class RegisterAPIView(GenericAPIView):
     authentication_classes = []
-
     serializer_class = RegisterSerializer
 
     def post(self, request):
@@ -33,7 +31,6 @@ class RegisterAPIView(GenericAPIView):
 
 class LoginAPIView(GenericAPIView):
     authentication_classes = []
-
     serializer_class = LoginSerializer
 
     def post(self, request):
@@ -46,4 +43,4 @@ class LoginAPIView(GenericAPIView):
             serializer = self.serializer_class(user)
 
             return response.Response(serializer.data, status=status.HTTP_200_OK)
-        return response.Response({'message': "Invalid credentials, try again"}, status=status.HTTP_401_UNAUTHORIZED)
+        return response.Response({'message': "Credenciais inválidas, tente novamente"}, status=status.HTTP_401_UNAUTHORIZED)

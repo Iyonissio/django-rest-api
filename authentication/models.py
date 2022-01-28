@@ -11,18 +11,17 @@ from datetime import datetime, timedelta
 
 from django.conf import settings
 
-
 class MyUserManager(UserManager):
 
     def _create_user(self, username, email, password, **extra_fields):
         """
-        Create and save a user with the given username, email, and password.
+        Crie e salve um usuário com o nome de usuário, e-mail e senha fornecidos.
         """
         if not username:
-            raise ValueError('The given username must be set')
+            raise ValueError('O nome de usuário fornecido deve ser definido')
 
         if not email:
-            raise ValueError('The given email must be set')
+            raise ValueError('O e-mail fornecido deve ser definido')
 
         email = self.normalize_email(email)
         username = self.model.normalize_username(username)
@@ -50,25 +49,22 @@ class MyUserManager(UserManager):
 
 class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
     """
-    An abstract base class implementing a fully featured User model with
-    admin-compliant permissions.
+    Uma classe base abstrata que implementa um modelo de usuário completo com
+    permissões compatíveis com administrador.
 
-    Username and password are required. Other fields are optional.
+    Nome de usuário e senha são necessários. Outros campos são opcionais.
     """
     username_validator = UnicodeUsernameValidator()
 
-    username = models.CharField(
-        _('username'),
-        max_length=150,
-        unique=True,
-        help_text=_(
-            'Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
+    username = models.CharField(_('username'), max_length=150, unique=True, help_text=_(
+        'Requeridos. 150 caracteres ou menos. Apenas letras, dígitos e @/./+/-/_.'),
         validators=[username_validator],
         error_messages={
-            'unique': _("A user with that username already exists."),
+            'unique': _("Um usuário com esse nome já existe."),
         },
     )
     email = models.EmailField(_('email address'), blank=False, unique=True)
+    #Verificar permissoes etc/ metodos por melhorar
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
